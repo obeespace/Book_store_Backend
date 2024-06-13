@@ -7,19 +7,20 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cors())
+require('dotenv').config()
 // app.use(cors({
 //   origin: 'http://localhost/3002',
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //   allowHeaders: ['content-type']
 // }))
 
-app.use('/api/book', bookRouter)
-app.use('/auth/book', userRouter)
+app.use(process.env.APP_BOOK_ROUTE, bookRouter)
+app.use(process.env.APP_AUTH_ROUTE, userRouter)
 
 
 mongoose
   .connect(
-    "mongodb+srv://obeewon20:O3ZX4wPoIQxSjaJT@cluster0.vh9mqxs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    process.env.MONGODB_URL
   )
   .then(() => {
     app.listen(3030, () => {
